@@ -75,9 +75,6 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 
 const baseRoutes = [
   { icon: IconHome2, label: "Home", route: "/dashboard" },
-  { icon: IconBuildingStore, label: "My Store", route: "/dashboard/store" },
-  { icon: IconUsers, label: "Staff", route: "/dashboard/store" },
-  { icon: IconSettings, label: "Settings", route: "/dashboard/settings" },
 ];
 
 type PageProps = {

@@ -6,6 +6,22 @@ import {
 } from "./notificationService";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { NextRouter } from "next/router";
+import * as UserService from "./userService";
+import { auth } from '../../src/config/firebaseConfig'
+import { fire } from '../../src/config/firebaseConfig'
+
+
+export async function getUser(email, id) {
+  try {
+    let user = await UserService.get(fire, id)
+    if (!user) {
+      user = await UserService.create(fire, { id, email, name: email, role: "employee" })
+    }
+    return user
+  } catch (err) {
+    handleFirebaseError(err)
+  }
+}
 
 export const login = async (auth, email: string, password: string, router: NextRouter) => {
   try {
@@ -48,4 +64,3 @@ function handleError(error) {
 function handleFirebaseError(res: Response) {
     showError("Oops!", "Something went wrong 👀");
 }
-

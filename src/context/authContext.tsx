@@ -7,6 +7,7 @@ import {
 } from 'firebase/auth'
 import { auth } from '../config/firebaseConfig'
 import { User } from '../models/user'
+import * as AuthService from '../services/authService'
 
 const AuthContext = createContext<any>({})
 
@@ -31,13 +32,9 @@ export const AuthContextProvider = ({
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (fireUser) => {
       if (fireUser) {
-        const res = await fetch("/api/login", {
-          method: "POST",
-          body: JSON.stringify({ email: fireUser.email, id: fireUser.uid })
-        })
-        const data = await res.json() as User
+        const user = await AuthService.getUser(fireUser.email, fireUser.uid)
 
-        setUser(asActiveUserAcc(fireUser, data))
+        setUser(asActiveUserAcc(fireUser, user))
       } else {
         setUser(null)
       }
